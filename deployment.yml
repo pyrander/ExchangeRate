@@ -1,0 +1,77 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ibk-coupon-usage-ms
+  namespace: eu2-prma-dev-01
+  labels:
+    product: premia
+    app: coupon-usage
+    tier: backend
+    phase: dev
+    deployment: v1	
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        product: premia
+        app: coupon-usage
+        tier: backend
+        phase: dev
+        deployment: v1
+    spec:
+      containers:
+      - image: acreu2c002prmadev01.azurecr.io/premia/ibk-coupon-usage-ms:0.0.1
+        name: ibk-coupon-usage-ms
+        imagePullPolicy: Always
+        resources:
+            requests:
+              memory: "384Mi"
+            limits:
+              memory: "512Mi"
+        env:
+        - name: ambiente
+          value: "dev"
+        - name: version
+          value: "0.0.1"
+        - name: name
+          value: "ibk-coupon-usage-ms"
+        - name: JAVA_OPTIONS
+          value: "-Xms64m -Xmx128m"          
+        - name: CONFIG_NO_SENSITIVE
+          valueFrom:
+            configMapKeyRef:
+              name: ibk-coupon-usage-ms-properties
+              key: config-dev.properties
+        - name: MESSAGE_CATALOG
+          valueFrom:
+            configMapKeyRef:
+              name: message-catalog
+              key: message-catalog.properties      
+        - name: CONFIG_SENSITIVE
+          valueFrom:
+            secretKeyRef:
+              name: config-sensibles
+              key: config-sensibles-dev.properties
+        volumeMounts:
+        - mountPath: /data
+          name: mdp-dev-volume
+        - mountPath: /etc/localtime 
+          name: tz-config  
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP 
+      volumes:
+      - name: mdp-dev-volume
+        azureFile:
+          secretName: storage-secret
+          shareName: resources
+          readOnly: false
+      - name: tz-config
+        hostPath:
+          path: /usr/share/zoneinfo/America/Lima    
+      imagePullSecrets:
+      - name: bluemix-pys-secret          

@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "32bf009f-dc61-4e2f-b0c9-2688cc1bd5d4",
+		"name": "Exchange",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ApplyRate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t \"monto\":15,\n\t \"monedaOrigen\":\"PEN\",\n\t \"monedaDestino\":\"USD\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/exchange/apply",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"exchange",
+						"apply"
+					]
+				},
+				"description": "applyrate\n"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
