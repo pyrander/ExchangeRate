@@ -1,6 +1,6 @@
 FROM openjdk:8
 
-MAINTAINER Alex Aguirre <jaguirrj@everis.com>
+MAINTAINER Alex Aguirre
 
 ARG artifact_id
 ARG artifact_version
@@ -9,7 +9,6 @@ ENV artifact ${artifact_id}-${artifact_version}.jar
 
 # Create app directory
 RUN mkdir -p /usr/src/app/${artifact_id}
-RUN mkdir -p /data
 WORKDIR /usr/src/app/${artifact_id}
 
 # Install app dependencies

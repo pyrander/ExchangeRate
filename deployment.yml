@@ -1,11 +1,11 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: ibk-coupon-usage-ms
-  namespace: eu2-prma-dev-01
+  name: Exchangerate
+  namespace: core
   labels:
-    product: premia
-    app: coupon-usage
+    product: exchange
+    app: Exchangerate
     tier: backend
     phase: dev
     deployment: v1	
@@ -16,15 +16,15 @@ spec:
   template:
     metadata:
       labels:
-        product: premia
-        app: coupon-usage
+        product: exchange
+        app: Exchangerate
         tier: backend
         phase: dev
         deployment: v1
     spec:
       containers:
-      - image: acreu2c002prmadev01.azurecr.io/premia/ibk-coupon-usage-ms:0.0.1
-        name: ibk-coupon-usage-ms
+      - image: acreu2c002dev01.azurecr.io/bcp/Exchangerate:0.0.1
+        name: Exchangerate
         imagePullPolicy: Always
         resources:
             requests:
@@ -37,13 +37,13 @@ spec:
         - name: version
           value: "0.0.1"
         - name: name
-          value: "ibk-coupon-usage-ms"
+          value: "Exchangerate"
         - name: JAVA_OPTIONS
           value: "-Xms64m -Xmx128m"          
         - name: CONFIG_NO_SENSITIVE
           valueFrom:
             configMapKeyRef:
-              name: ibk-coupon-usage-ms-properties
+              name: Exchangerate-properties
               key: config-dev.properties
         - name: MESSAGE_CATALOG
           valueFrom:
@@ -74,4 +74,4 @@ spec:
         hostPath:
           path: /usr/share/zoneinfo/America/Lima    
       imagePullSecrets:
-      - name: bluemix-pys-secret          
+      - name: github-secret          
